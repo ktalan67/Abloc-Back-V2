@@ -9,11 +9,13 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 /**
  * @Route("/api/hint")
@@ -33,7 +35,7 @@ class HintController extends AbstractController
     /**
      * @Route("/", name="hint_new", methods={"POST"})
      */
-    public function postHint(Request $request): Response
+    public function postHint(Request $request, ValidatorInterface $validator): Response
     {
         /*
             {
@@ -44,26 +46,22 @@ class HintController extends AbstractController
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
         $hintText = $contentObject->text;
-
-        // payload validation
-        $validationsErrors = [];
-        
-        if($hintText === ""){
-            $validationsErrors[] = "text, blank";
-        }
-
-        if(strlen($hintText) > 999){
-            $validationsErrors[] = "text, length, max, 999";
-        }
-
-        if (count($validationsErrors) !== 0) {
-            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        $hint = new Hint();
-        
+        $hint = new Hint();  
         $hint->setText($hintText);
         $hint->setCreatedAt(new \DateTime());
+        $errors = $validator->validate($hintText);
+        if (count($errors) > 0) {
+            /*
+             * Uses a __toString method on the $errors variable which is a
+             * ConstraintViolationList object. This gives us a nice string
+             * for debugging.
+             */
+            $errorsString = (string) $errors;
+    
+            return new Response($errorsString);
+        }
+    
+        return new Response('The author is valid! Yes!');
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($hint);

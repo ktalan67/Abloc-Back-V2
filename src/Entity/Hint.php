@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,9 +21,9 @@ class Hint
     private $id;
 
     /**
-     * @Assert\NotBlank(message="You must right something!")
      * @ORM\Column(type="text")
      * @Groups({"exercise", "hint", "program"})
+     * @Assert\NotBlank
      */
     private $text;
 
@@ -37,6 +38,11 @@ class Hint
      * @Groups("hint")
      */
     private $updated_at;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
+    }
 
     public function getId(): ?int
     {

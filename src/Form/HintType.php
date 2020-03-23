@@ -6,15 +6,17 @@ use App\Entity\Hint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class HintType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('text')
-            ->add('created_at')
-            ->add('updated_at')
+            ->add('text', TextType::class, [
+                'required' => false,
+            ]
+            )
         ;
     }
 
@@ -22,6 +24,9 @@ class HintType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Hint::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ]
         ]);
     }
 }

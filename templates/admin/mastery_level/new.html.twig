@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New MasteryLevel{% endblock %}
+
+{% block body %}
+<div class="info-container">
+    <div class="info-body">
+    <table class="table table-light text-center">
+        <thead class="info-thead">
+            <tr>
+                <th>New Mastery Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ include('admin/mastery_level/_form.html.twig', {'button_label': 'Create'}) }}</td>
+            </tr>
+        </tbody>
+    </table>
+        <div class="back-list-button">
+            <a href="{{ path('admin_mastery_level_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

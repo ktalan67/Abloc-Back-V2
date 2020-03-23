@@ -1,0 +1,95 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin:
+            pattern: ^/admin
+            anonymous: lazy
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\AdminAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: app_login
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path: /api/login
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        signup:
+            pattern: ^/api/user/
+            stateless: true
+            anonymous: true
+            methods: [POST]
+
+        open_mastery:
+            pattern: ^/api/mastery-level/
+            stateless: true
+            anonymous: true
+            methods: [GET]
+
+        open_program:
+            pattern: ^/api/program/
+            stateless: true
+            anonymous: true
+            methods: [GET]
+
+        api:
+            pattern: ^/api
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        main:
+            anonymous: true
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: '^/admin/super-admin', roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: [127.0.0.1, ::1, 82.124.47.112, 92.140.131.176, 109.18.2.27 ] }
+        - { path: '^/admin/super-admin', roles: ROLE_NO_ACCESS }
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/admin', roles: ROLE_ADMIN }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/user/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
+        - { path: ^/api/mastery-level/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
+        - { path: ^/api/program/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
+        - { path: ^/api/exercise/, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/api/hint/, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/api/prerequisite/, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/api/user/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
+        - { path: ^/api/exercise-comment/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
+        - { path: ^/api/program-comment/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
+        - { path: ^/api, roles: ROLE_ADMIN }
+        
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_MODERATOR
+        ROLE_MODERATOR: ROLE_USER

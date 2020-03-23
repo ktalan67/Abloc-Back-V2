@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% block title %}New Exercise{% endblock %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+<div class="info-container">
+    <div class="info-body">
+    <table class="table table-light text-center">
+        <thead class="info-thead">
+            <tr>
+                <th>New Exercise</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="new-card">
+                        <div class="new-card--entity">
+                        {{ form_start(form) }}
+                            {{ form_label(form.title) }}
+                            {{ form_widget(form.title) }}
+
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description) }}
+
+                            {{ form_label(form.time) }}
+                            {{ form_widget(form.time) }}
+
+                            {{ form_label(form.score) }}
+                            {{ form_widget(form.score) }}
+
+                            {{ form_label(form.mastery_level) }}
+                            {{ form_widget(form.mastery_level) }}
+                        </div>
+                     <div class="image-card d-flex justify-content-around align-items-center">
+                        {{ form_label(form.img_path) }}
+                        {{ form_widget(form.img_path) }}
+                    <div class="hidden-content">
+                        {{ form_label(form.set_image_default) }}
+                        {{ form_widget(form.set_image_default) }}
+                    </div>
+                    </div>
+                    </div>  
+                            <div class="new-card check-box--flex">
+                            {{ form_label(form.hints) }}
+                            {{ form_widget(form.hints) }}
+                            </div>
+                            <div class="new-card check-box--flex">
+                            {{ form_label(form.prerequisites) }}
+                            {{ form_widget(form.prerequisites) }}
+                            </div>
+                            <div class="new-card check-box--flex">
+                            {{ form_label(form.programs) }}
+                            {{ form_widget(form.programs) }}
+                            </div>
+                    <button class="btn btn-success btn-block">{{ button_label|default('Create') }}</button>
+                    {{ form_end(form) }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        <div class="back-list-button">
+            <a href="{{ path('admin_exercise_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,287 @@
+/* ----- NAVBAR ----- A'Bloc ----- */
+.navbar-nav > .nav-item > .nav-link{
+  color: rgb(238, 98, 33);
+}
+.dropdown-menu {
+  background-color: rgb(238, 98, 33);
+}
+.dropdown-menu > .dropdown-item {
+  color: white;
+}
+.dropdown-menu > .dropdown-item:hover {
+  color: rgb(238, 98, 33);
+}
+.logo {
+  margin: 5px;
+}
+.navbar {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem; 
+}
+
+/* ----- BOOTSTRAP CUSTOM BUTTONS ----- A'Bloc ----- */
+.btn-primary:hover {
+  background-color: rgb(0, 0, 255);
+}
+.btn-warning:hover {
+  background-color: rgb(255, 255, 0);
+}
+.btn-danger:hover {
+  background-color: rgb(255, 0, 0);
+}
+.btn-success:hover{
+  background-color: rgb(0, 255, 0)
+}
+.back-list-button {
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem; 
+}
+
+/* ----- GENERAL ----- A'Bloc ----- */
+html,body{
+  background-color: #EBEBEB;
+  font-family: 'Roboto', sans-serif;
+}
+.hidden-content {
+  display: none;
+}
+img {
+  width: 40px;
+  height: 40px;
+}
+th {
+  color: white;
+}
+tbody {
+  background-color: white;
+}
+
+/* ----- MAIN API ROUTES ----- A'Bloc ----- */
+.info-thead-api {
+  background-color: rgb(238, 98, 33);
+  font-size: 0.8em;
+}
+.info-body .table-api {
+  margin-bottom: 0em;
+  font-size: 0.7em;
+}
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+.collapse-content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+/* ----- VIEWS ----- A'Bloc ----- */
+.info {
+  background-color:white;
+}
+.info-container{
+  display:flex;
+  justify-content:center;
+}
+.info-body {
+  margin: 50px;
+  padding: 0;
+  box-shadow: rgba(68, 55, 55, 0.15) 0px 0.5rem 1rem;
+  width: 90%;
+  background-color: white;
+}
+.info-body .table {
+  margin-bottom: 0em;
+}
+.info-body > a {
+  margin: 3px;
+}
+.info-thead {
+  background-color: rgb(238, 98, 33);
+}
+.info-description {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+}
+/*Entities name routes over table*/
+.route {
+  font-size: 1.2em;
+  color:rgb(238, 98, 33);
+  margin: 8px;
+}
+.info-tabs-content {
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem; 
+}
+
+/* ----- NAV-Tabs on VIEWS ----- A'Bloc ----- */
+.card-header-tabs {
+ margin: 0;
+}
+.nav-item-tab > a {
+  color:rgb(238, 98, 33);
+}
+
+/* ----- LOGIN Form ----- A'Bloc ----- */
+.login-container{
+  height: auto;
+  align-content: center;
+  padding: 100px;
+}
+.login-card-header h3{
+  color: rgb(238, 98, 33);
+}
+.login-card-footer > a{
+  color: rgb(252, 152, 66)
+}
+.login-card-footer > a:hover{
+  color: rgb(126, 109, 102);
+}   
+.login-card{
+  text-align: center;
+  height: auto;
+  padding: 20px;
+  width: 300px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+}
+.login-input-group-prepend{
+  width: 100%;
+  background-color: rgb(238, 98, 33);
+  border-radius: 3px;
+}
+.login-input-group-prepend span{
+  width: 100%;
+  background-color: rgb(238, 98, 33);
+  color: white;
+}
+.login_btn{
+  color: white;
+  background-color: rgb(252, 152, 66);
+  width: 100%;
+}
+.login_btn:hover{
+  color: white;
+  background-color: rgb(238, 98, 33);
+}
+
+/* ----- COMMENTS ----- A'Bloc ----- */
+.comment-date {
+  font-size: 0.7em;
+}
+
+/* ----- FORM ----- A'Bloc ----- */
+.form-control{
+  width: 100%;
+  font-size: 1rem;
+  border-width: 1px;
+  border-style: solid;  
+  border-color: rgb(252, 152, 66);
+}
+.form-check {
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+  margin: 10px;
+}
+.image-card {
+  display:flex;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+  margin: 10px;
+  padding: 10px;
+}
+.current-image {
+  font-size: 0.5em;
+}
+
+.col-form-label {
+  color: rgb(238, 98, 33);
+}
+
+/* ----- Admin checkboxes ----- A'Bloc ----- */
+
+.check-box--flex > div
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.form-check
+{
+  width: 100%;
+  border-radius: .25rem;
+  border: white solid 1px;
+  padding-left: 0;
+}
+
+.form-check-label
+{
+  border-radius: .25rem;
+  line-height: 3em;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.form-check:hover{
+  border: rgb(238, 98, 33) solid 1px;
+}
+
+input[type=checkbox],
+input[type=radio]
+ {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+}
+
+:checked + .form-check-label {
+  font-weight: bold;
+  background-color:rgb(238, 98, 33);
+  color: white;
+}
+
+/* ----- Admin new/edit user radio checkboxes ----- A'Bloc ----- */
+
+#user_new_mastery_level,
+#user_edit_mastery_level
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+@media (min-width: 800px) {
+  .form-check
+  {
+    width: 47%;
+  }
+}
+@media (min-width: 1200px) {
+  .form-check
+  {
+    width: 31%;
+  }
+}
+@media (min-width: 1600px) {
+  .form-check
+  {
+    width: 22%;
+  }
+}
+@media (min-width: 1900px) {
+  .form-check
+  {
+    width: 18%;
+  }
+}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MasteryLevel index{% endblock %}
+
+{% block body %}
+<div class="info-container">
+    <div class="info-body">
+    <a href="{{ path('admin_mastery_level_new') }}" button type="button" class="btn btn-success position-absolute">Create New</a>
+    <p class="route d-flex justify-content-end">MasteryLevel index</p>
+    <table class="table table-striped table-bordered table-light text-center">
+        <thead class="info-thead">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Level Index</th>          
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mastery_level in mastery_levels %}
+            <tr>
+                <td>{{ mastery_level.id }}</td>
+                <td>{{ mastery_level.title }}</td>
+                <td>{{ mastery_level.levelIndex }}</td>
+                <td>
+                    <a href="{{ path('admin_mastery_level_show', {'id': mastery_level.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
+                    <a href="{{ path('admin_mastery_level_edit', {'id': mastery_level.id}) }}" class="btn btn-warning fas fa-edit"></a>
+                    {{ include('admin/mastery_level/_delete_small_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

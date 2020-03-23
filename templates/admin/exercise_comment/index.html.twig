@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExerciseComment index{% endblock %}
+
+{% block body %}
+<div class="info-container">
+    <div class="info-body">
+    <p class="route d-flex justify-content-end">Exercise comment index</p>
+    <table class="table table-striped table-bordered table-light text-center">
+        <thead class="info-thead">
+            <tr>
+                <th>Id</th>
+                <th>Text</th>
+                <th>User</th>
+                <th>Exercise</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exercise_comment in exercise_comments %}
+            <tr>
+                <td>{{ exercise_comment.id }}</td>
+                <td>{{ exercise_comment.text }}</td>
+                <td>@{{ exercise_comment.user.accountName }}</td>
+                <td>{{ exercise_comment.exercise.title }}</td>
+                <td>
+                    <a href="{{ path('admin_exercise_comment_show', {'id': exercise_comment.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
+                    <a href="{{ path('admin_exercise_comment_edit', {'id': exercise_comment.id}) }}" class="btn btn-warning fas fa-edit"></a>
+                    {{ include('admin/exercise_comment/_delete_small_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="no-records">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

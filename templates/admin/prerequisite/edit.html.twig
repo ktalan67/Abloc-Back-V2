@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Prerequisite{% endblock %}
+
+{% block body %}
+<div class="info-container">
+    <div class="info-body">
+    <p class="route d-flex justify-content-end">Edit Prerequisite</p>
+    <table class="table table-bordered table-light text-center">
+        <thead class="info-thead">
+            <tr>
+                <th>ID : {{ prerequisite.id }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>    {{ include('admin/prerequisite/_form.html.twig', {'button_label': 'Update'}) }}
+                        {{ include('admin/prerequisite/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        <a href="{{ path('admin_prerequisite_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+</div>
+{% endblock %}

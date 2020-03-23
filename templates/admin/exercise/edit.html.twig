@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Exercise{% endblock %}
+
+{% block body %}
+<div class="info-container">
+    <div class="info-body">
+    <p class="route d-flex justify-content-end">Edit Exercises</p>
+    <table class="table table-bordered table-light text-center">
+        <thead class="info-thead">
+            <tr>
+                <th>ID : {{ exercise.id }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="edit-card">
+                        <div class="edit-card--entity">
+                        {{ form_start(form) }}
+                            {{ form_label(form.title) }}
+                            {{ form_widget(form.title) }}
+
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description) }}
+
+                            {{ form_label(form.time) }}
+                            {{ form_widget(form.time) }}
+
+                            {{ form_label(form.score) }}
+                            {{ form_widget(form.score) }}
+
+                            {{ form_label(form.mastery_level) }}
+                            {{ form_widget(form.mastery_level) }}
+                     <div class="image-card d-flex justify-content-around align-items-center">
+                    <div class="image-card d-flex justify-content-around align-items-center">
+                    <p class="current-image">Current Image</p>
+                     <img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="exercise Image Abloc" style="margin:2px";>
+                                          </div>
+                    {{ form_label(form.img_path) }}
+                    {{ form_widget(form.img_path) }}
+                    {{ form_label(form.set_image_default) }}
+                    {{ form_widget(form.set_image_default) }}
+                     </div>
+                        </div>  
+                            <div class="new-card check-box--flex">
+                            {{ form_label(form.hints) }}
+                            {{ form_widget(form.hints) }}
+                            </div>
+                            <div class="new-card check-box--flex">
+                            {{ form_label(form.prerequisites) }}
+                            {{ form_widget(form.prerequisites) }}
+                            </div>
+                            <div class="new-card check-box--flex">
+                            {{ form_label(form.programs) }}
+                            {{ form_widget(form.programs) }}
+                            </div>
+
+                    </div>
+                    <button class="btn btn-success btn-block">{{ button_label|default('Update') }}</button>
+                    {{ form_end(form) }}
+                    {{ include('admin/exercise/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        <a href="{{ path('admin_exercise_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+</div>
+{% endblock %}

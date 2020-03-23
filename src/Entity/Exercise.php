@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ExerciseRepository")
@@ -16,37 +17,44 @@ class Exercise
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "prerequisite", "program", "abloc_user"})
+     * @Groups({"exercise", "prerequisite", "program", "abloc_user", "mastery_level", "exercise_comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups({"exercise", "prerequisite", "program", "abloc_user"})
+     * @Groups({"exercise", "prerequisite", "program", "abloc_user", "mastery_level", "exercise_comment"})
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 64
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="smallint")
      * @Groups({"exercise", "program"})
+     * @Assert\NotBlank
      */
     private $time;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $img_path;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      * @Groups({"exercise", "program"})
+     * @Assert\NotBlank
      */
     private $score;
 
@@ -82,9 +90,16 @@ class Exercise
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExerciseComment", mappedBy="exercise", orphanRemoval=true)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel", inversedBy="exercises")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"exercise", "program"})
+     */
+    private $mastery_level;
 
     public function __construct()
     {
@@ -92,6 +107,7 @@ class Exercise
         $this->prerequisites = new ArrayCollection();
         $this->programs = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -249,7 +265,6 @@ class Exercise
             $this->programs[] = $program;
             $program->addExercise($this);
         }
-
         return $this;
     }
 
@@ -290,6 +305,18 @@ class Exercise
                 $comment->setExercise(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMasteryLevel(): ?MasteryLevel
+    {
+        return $this->mastery_level;
+    }
+
+    public function setMasteryLevel(?MasteryLevel $mastery_level): self
+    {
+        $this->mastery_level = $mastery_level;
 
         return $this;
     }

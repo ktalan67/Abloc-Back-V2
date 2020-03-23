@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Hint{% endblock %}
+
+{% block body %}
+<div class="info-container">
+    <div class="info-body">
+    <p class="route d-flex justify-content-end">Edit Hint</p>
+    <table class="table table-bordered table-light text-center">
+        <thead class="info-thead">
+            <tr>
+                <th>ID : {{ hint.id }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>    {{ include('admin/hint/_form.html.twig', {'button_label': 'Update'}) }}
+                        {{ include('admin/hint/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        <a href="{{ path('admin_hint_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+    </div>
+</div>
+{% endblock %}

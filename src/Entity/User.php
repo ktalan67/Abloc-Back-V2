@@ -7,41 +7,57 @@ use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("abloc_user")
+     * @Groups({"abloc_user", "exercise_comment", "program_comment"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     * @Groups("abloc_user")
+     * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"abloc_user", "exercise_comment", "program_comment"})
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 180
+     * )
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json")
      * @Groups("abloc_user")
+     */
+    private $roles = [];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups("abloc_user")
+     * @Groups({"abloc_user", "exercise_comment", "program_comment", "exercise", "program"})
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 64
+     * )
      */
     private $account_name;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("abloc_user")
+     * @Groups({"abloc_user", "exercise_comment", "program_comment", "exercise", "program"})
      */
     private $img_path;
 
@@ -92,28 +108,26 @@ class User
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExerciseComment", mappedBy="user", orphanRemoval=true)
-     * @Groups("abloc_user")
      */
     private $exercise_comments;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProgramComment", mappedBy="user", orphanRemoval=true)
-     * @Groups("abloc_user")
      */
     private $program_comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\AccessLevel")
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups("abloc_user")
-     */
-    private $access_level;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel")
      * @Groups("abloc_user")
+     * @Assert\NotBlank
      */
     private $mastery_level;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Program", inversedBy="users")
+     * @Groups("abloc_user")
+     */
+    private $active_program;
 
     public function __construct()
     {
@@ -122,6 +136,8 @@ class User
         $this->followed_programs = new ArrayCollection();
         $this->exercise_comments = new ArrayCollection();
         $this->program_comments = new ArrayCollection();
+        $this->created_at = new \DateTime();
+        $this->img_path = "user_image_default.png";
     }
 
     public function getId(): ?int
@@ -141,9 +157,41 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+/**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->password;
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -151,6 +199,23 @@ class User
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getAccountName(): ?string
@@ -365,18 +430,6 @@ class User
         return $this;
     }
 
-    public function getAccessLevel(): ?AccessLevel
-    {
-        return $this->access_level;
-    }
-
-    public function setAccessLevel(?AccessLevel $access_level): self
-    {
-        $this->access_level = $access_level;
-
-        return $this;
-    }
-
     public function getMasteryLevel(): ?MasteryLevel
     {
         return $this->mastery_level;
@@ -385,6 +438,18 @@ class User
     public function setMasteryLevel(?MasteryLevel $mastery_level): self
     {
         $this->mastery_level = $mastery_level;
+
+        return $this;
+    }
+
+    public function getActiveProgram(): ?Program
+    {
+        return $this->active_program;
+    }
+
+    public function setActiveProgram(?Program $active_program): self
+    {
+        $this->active_program = $active_program;
 
         return $this;
     }
